@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sist.manager.dao.UserDao" >
+	
+	<resultMap id="userResultMap" type="com.sist.manager.model.User" >
+		<id column="USER_ID" property="userId" />
+		<result column="USER_PWD" property="userPwd" />
+		<result column="USER_NAME" property="userName" />
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="STATUS" property="status" />
+		<result column="REG_DATE" property="regDate" />
+	</resultMap>
+	
+	<select id="userSelect" parameterType="String" resultMap="userResultMap" >
+	   SELECT USER_ID, NVL(USER_PWD,'') USER_PWD,
+	               NVL(USER_NAME,'') USER_NAME, NVL(USER_EMAIL,'') USER_EMAIL,
+	               NVL(STATUS,'') STATUS, NVL(TO_CHAR(REG_DATE,'YYYY.MM.DD HH24:MI:SS'),'') REG_DATE
+	     FROM TBL_USER
+	    WHERE USER_ID = #{value}
+	</select>
+
+	<update id="userUpdate" parameterType="com.sist.manager.model.User" >
+		  UPDATE TBL_USER 
+		     SET USER_PWD = #{userPwd},
+		            USER_NAME = #{userName},
+		            USER_EMAIL = #{userEmail},
+		            STATUS = #{status}
+		  WHERE USER_ID = #{userId}
+	</update>
+
+</mapper>
